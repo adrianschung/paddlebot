@@ -6,33 +6,50 @@ const client = new Discord.Client();
 
 const nameCommands = [
   'anyway', 'back', 'bday', 'bus', 'chainsaw', 'cocksplat', 'dalton',
-  'deraadt', 'donut', 'equity', 'fewer', 'name', 'fts', 'noun', 'ing',
-  'keep', 'king', 'legend', 'linus', 'madison', 'nugget', 'off', 'outside',
+  'deraadt', 'donut', 'equity', 'fewer', 'name', 'fts', 'ing', 'keep',
+  'king', 'legend', 'linus', 'look', 'madison', 'nugget', 'off', 'outside',
   'problem', 'rockstar', 'shakespeare', 'shutup', 'think', 'thinking',
   'thumbs', 'waste', 'xmas', 'yoda', 'you',
 ];
 
 async function handleResponse(body, message) {
   body = body.split(' - ')[0];
-  await saveTts(body);
-  await playMessage(message);
+  body = body.match(/.{1,199}(\s|$)/g);
+  const messages = ['tts0.mp3'];
+  for (const i in body) {
+    if (i == 0) {
+      await saveTts(body[i]);
+    }
+    else {
+      const name = 'tts' + i.toString() + '.mp3';
+      await saveTts(body[i], name);
+      messages.push(name);
+    }
+  }
+  await playMessage(message, messages);
 }
 
-async function saveTts(message) {
-  await txtomp3.saveMP3(message, 'tts.mp3').then(function(absoluteFilePath) {
-    console.log(absoluteFilePath);
-  })
-    .catch(function(err) {
-      console.log(err);
-    });
+async function saveTts(message, name = 'tts0.mp3') {
+  await txtomp3.saveMP3(message, name);
 }
 
-async function playMessage(message) {
+async function playMessage(message, messages = ['tts0.mp3']) {
   const connection = await message.member.voice.channel.join();
-  const dispatcher = await connection.play('tts.mp3');
-  dispatcher.on('finish', function() {
-    connection.disconnect();
-  });
+  if (messages.length > 1) {
+    const dispatcher = connection.play(messages[0]);
+    dispatcher.on('finish', () => {
+      const secondDispatcher = connection.play(messages[1]);
+      secondDispatcher.on('finish', () => {
+        connection.disconnect();
+      });
+    });
+  }
+  else {
+    const dispatcher = connection.play(messages[0]);
+    dispatcher.on('finish', () => {
+      connection.disconnect();
+    });
+  }
 }
 
 function nameOptions(command, name) {
