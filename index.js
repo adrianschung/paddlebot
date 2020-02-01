@@ -75,7 +75,7 @@ client.once('ready', () => {
 });
 
 client.on('message', async message => {
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
+  if (!message.content.startsWith(prefix) || message.author.bot || message.author.tag == 'Chung has a small china dick#8463') return;
 
   const args = message.content.slice(prefix.length).split(' ');
   const command = args.shift().toLowerCase();
