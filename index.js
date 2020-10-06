@@ -90,6 +90,10 @@ client.on('message', async message => {
       const string = 'Make sure to like, comment, and fucking subscribe.';
       handleResponse(string, message);
     }
+    else if (command === 'say') {
+      args = args.join(' ');
+      handleResponse(args, message);
+    }
     else if (nameCommands.includes(command)) {
       if (args.length !== 1) {
         return message.channel.send('Provide 1 name.');
