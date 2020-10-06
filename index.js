@@ -90,6 +90,10 @@ client.on('message', async message => {
       const string = 'Make sure to like, comment, and fucking subscribe.';
       handleResponse(string, message);
     }
+    else if (command === 'test') {
+      const string = 'The bot is fucking working.';
+      handleResponse(string, message);
+    }
     else if (command === 'say') {
       args = args.join(' ');
       handleResponse(args, message);
