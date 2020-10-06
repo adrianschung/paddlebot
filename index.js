@@ -95,8 +95,8 @@ client.on('message', async message => {
       handleResponse(string, message);
     }
     else if (command === 'say') {
-      args = args.join(' ');
-      handleResponse(args, message);
+      const string = args.join(' ');
+      handleResponse(string, message);
     }
     else if (nameCommands.includes(command)) {
       if (args.length !== 1) {
