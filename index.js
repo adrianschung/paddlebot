@@ -1,9 +1,10 @@
 const Discord = require('discord.js');
+const { Client, Intents } = require('discord.js');
 const { prefix, token } = require('./config.json');
 const request = require('request');
 const txtomp3 = require('text-to-mp3');
 const ytdl = require('ytdl-core');
-const client = new Discord.Client();
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 const queue = new Map();
 
 const nameCommands = [
@@ -57,7 +58,7 @@ async function playMessage(message, messages = ['tts0.mp3']) {
 async function execute(message, serverQueue) {
   const args = message.content.split(" ");
 
-  const voiceChannel = message.member.voice.channel.join();
+  const voiceChannel = message.member.voice.channel;
   if (!voicechannel)
     return message.channel.send("Not in a channel dumbfuck");
   const permissions = permissionsFor(message.client.user);
@@ -82,7 +83,7 @@ async function execute(message, serverQueue) {
     };
 
     queue.set(message.guild.id, queueConstruct);
-    queueConstruc.songs.push(song);
+    queueConstruct.songs.push(song);
 
     try {
       var connection = await voiceChannel.join();
