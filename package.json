@@ -23,6 +23,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "request": "^2.88.0",
     "text-to-mp3": "^1.0.4",
+    "youtube-search": "^1.1.6",
     "ytdl-core": "^4.9.1"
   },
   "engines": {
