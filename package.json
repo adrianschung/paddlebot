@@ -23,5 +23,8 @@
     "request": "^2.88.0",
     "text-to-mp3": "^1.0.4",
     "ytdl-core": "^4.9.1"
+  },
+  "engines": {
+    "node": "16.6.1"
   }
 }
