@@ -71,7 +71,7 @@ async function execute(message, serverQueue) {
     return message.channel.send("I need the permissions you dumbfuck");
   }
 
-  const songUrl = await youtube.searchVideos(args);
+  const songUrl = await youtube.searchVideos(args.url);
   const songInfo = await ytdl.getInfo(songUrl);
   const song = {
     title: songInfo.videoDetails.title,
