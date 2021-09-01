@@ -62,7 +62,9 @@ async function playMessage(message, messages = ['tts0.mp3']) {
 }
 
 async function execute(message, serverQueue) {
-  const args = message.content.split(" ");
+  let args = message.content.split(" ");
+  args.shift();
+  args = args.join(" ");
 
   const voiceChannel = message.member.voice.channel;
   if (!voiceChannel)
@@ -72,10 +74,10 @@ async function execute(message, serverQueue) {
     return message.channel.send("I need the permissions you dumbfuck");
   }
 
-  const songUrl = await search(args[0], opts, function(err, results) {
+  const songUrl = await search(args, opts, function(err, results) {
     if(err) return console.log(err);
   
-    results[0].link;
+    return results[0].link;
   });
   const songInfo = await ytdl.getInfo(songUrl);
   const song = {
@@ -89,7 +91,7 @@ async function execute(message, serverQueue) {
       voiceChannel: voiceChannel,
       connection: null,
       songs: [],
-      volume: 5,
+      volume: 3,
       playing: true
     };
 
