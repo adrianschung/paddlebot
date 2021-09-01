@@ -5,7 +5,7 @@ const request = require('request');
 const txtomp3 = require('text-to-mp3');
 const ytdl = require('ytdl-core');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-const queue = new Map();
+const serverQueue = new Map();
 
 const nameCommands = [
   'anyway', 'back', 'bday', 'bus', 'chainsaw', 'cocksplat', 'dalton',
