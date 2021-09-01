@@ -6,12 +6,9 @@ const txtomp3 = require('text-to-mp3');
 const ytdl = require('ytdl-core');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 const queue = new Map();
-const search = require('youtube-search')
+const YouTube = require("discord-youtbue-api");
 
-const opts = {
-  maxResults: 1,
-  key: 'AIzaSyDoQsQ3T13YPGGKckh8o-664jP_rw1Rq94'
-};
+const youtube = new YouTube("AIzaSyDoQsQ3T13YPGGKckh8o-664jP_rw1Rq94");
 
 const nameCommands = [
   'anyway', 'back', 'bday', 'bus', 'chainsaw', 'cocksplat', 'dalton',
@@ -74,11 +71,7 @@ async function execute(message, serverQueue) {
     return message.channel.send("I need the permissions you dumbfuck");
   }
 
-  const songUrl = await search(args, opts, function(err, results) {
-    if(err) return console.log(err);
-  
-    return results[0].link;
-  });
+  const songUrl = await youtube.searchVideos(args);
   const songInfo = await ytdl.getInfo(songUrl);
   const song = {
     title: songInfo.videoDetails.title,
