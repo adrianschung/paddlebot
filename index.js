@@ -5,7 +5,7 @@ const request = require('request');
 const txtomp3 = require('text-to-mp3');
 const ytdl = require('ytdl-core');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-const serverQueue = new Map();
+const queue = new Map();
 
 const nameCommands = [
   'anyway', 'back', 'bday', 'bus', 'chainsaw', 'cocksplat', 'dalton',
@@ -169,6 +169,7 @@ client.on('message', async message => {
 
   const args = message.content.slice(prefix.length).split(' ');
   const command = args.shift().toLowerCase();
+  const serverQueue = queue.get(message.guild.id);
 
   if (message.member.voice.channel) {
 
