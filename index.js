@@ -72,7 +72,7 @@ async function execute(message, serverQueue) {
     return message.channel.send("I need the permissions you dumbfuck");
   }
 
-  const songUrl = await search(string, opts, function(err, results) {
+  const songUrl = await search(args[0], opts, function(err, results) {
     if(err) return console.log(err);
   
     results[0].link;
