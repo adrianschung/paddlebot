@@ -61,7 +61,7 @@ async function execute(message, serverQueue) {
   const voiceChannel = message.member.voice.channel;
   if (!voiceChannel)
     return message.channel.send("Not in a channel dumbfuck");
-  const permissions = permissionsFor(message.client.user);
+  const permissions = voiceChannel.permissionsFor(message.client.user);
   if (!permissions.has("CONNECT")|| !permissions.has("SPEAK")) {
     return message.channel.send("I need the permissions you dumbfuck");
   }
