@@ -6,7 +6,7 @@ const txtomp3 = require('text-to-mp3');
 const ytdl = require('ytdl-core');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 const queue = new Map();
-const YouTube = require("discord-youtbue-api");
+const YouTube = require("discord-youtube-api");
 
 const youtube = new YouTube("AIzaSyDoQsQ3T13YPGGKckh8o-664jP_rw1Rq94");
 
