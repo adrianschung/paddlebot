@@ -80,19 +80,20 @@ async function execute(message, serverQueue) {
   }
 }
 
-async function addPlaylist(message, args, serverQueue) {
+async function addPlaylist(message, args) {
   const playlist = await youtube.getPlaylist(args);
-  playlist.forEach(song => queueSong(message, song.url, serverQueue));
+  playlist.forEach(song => await queueSong(message, song.url));
 }
 
-async function searchVideo(message, args, serverQueue) {
+async function searchVideo(message, args) {
   const song = await youtube.searchVideos(args);
-  queueSong(message, song.url, serverQueue);
+  queueSong(message, song.url);
 }
 
-async function queueSong(message, url, serverQueue) {
+async function queueSong(message, urle) {
   const voiceChannel = message.member.voice.channel;
   const songInfo = await ytdl.getInfo(url);
+  const serverQueue = queue.get(message.guild.id);
   const song = {
     title: songInfo.videoDetails.title,
     url: songInfo.videoDetails.video_url
