@@ -72,25 +72,26 @@ async function execute(message, serverQueue) {
   }
 
   if (args.includes("/watch")) {
-    queueSong(args, serverQueue);
+    queueSong(message, args, serverQueue);
   } else if (args.includes("/playlist")) {
-    addPlaylist(args, serverQueue);
+    addPlaylist(message, args, serverQueue);
   } else {
-    searchVideo(args, serverQueue);
+    searchVideo(message, args, serverQueue);
   }
 }
 
-async function addPlaylist(message, serverQueue) {
-  const playlist = await youtube.getPlaylist(message);
-  playlist.forEach(song => queueSong(song.url, serverQueue));
+async function addPlaylist(message, args, serverQueue) {
+  const playlist = await youtube.getPlaylist(args);
+  playlist.forEach(song => queueSong(message, song.url, serverQueue));
 }
 
-async function searchVideo(message, serverQueue) {
-  const song = await youtube.searchVideos(message);
-  queueSong(song.url, serverQueue);
+async function searchVideo(message, args, serverQueue) {
+  const song = await youtube.searchVideos(args);
+  queueSong(message, song.url, serverQueue);
 }
 
-async function queueSong(url, serverQueue) {
+async function queueSong(message, url, serverQueue) {
+  const voiceChannel = message.member.voice.channel;
   const songInfo = await ytdl.getInfo(url);
   const song = {
     title: songInfo.videoDetails.title,
