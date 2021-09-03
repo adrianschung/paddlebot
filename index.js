@@ -72,17 +72,19 @@ async function execute(message, serverQueue) {
   }
 
   if (args.includes("/watch")) {
-    queueSong(message, args, serverQueue);
+    queueSong(message, args);
   } else if (args.includes("/playlist")) {
-    addPlaylist(message, args, serverQueue);
+    addPlaylist(message, args);
   } else {
-    searchVideo(message, args, serverQueue);
+    searchVideo(message, args);
   }
 }
 
 async function addPlaylist(message, args) {
   const playlist = await youtube.getPlaylist(args);
-  playlist.forEach(song => await queueSong(message, song.url));
+  for (const song of playlist) {
+    await queueSong(message, song.url)
+  }
 }
 
 async function searchVideo(message, args) {
