@@ -71,8 +71,27 @@ async function execute(message, serverQueue) {
     return message.channel.send("I need the permissions you dumbfuck");
   }
 
-  const songUrl = await youtube.searchVideos(args);
-  const songInfo = await ytdl.getInfo(songUrl.url);
+  if (args.includes("/watch")) {
+    queueSong(args, serverQueue);
+  } else if (args.includes("/playlist")) {
+    addPlaylist(args, serverQueue);
+  } else {
+    searchVideo(args, serverQueue);
+  }
+}
+
+async function addPlaylist(message, serverQueue) {
+  const playlist = await youtube.getPlaylist(message);
+  playlist.forEach(song => queueSong(song.url, serverQueue));
+}
+
+async function searchVideo(message, serverQueue) {
+  const song = await youtube.searchVideos(message);
+  queueSong(song.url, serverQueue);
+}
+
+async function queueSong(url, serverQueue) {
+  const songInfo = await ytdl.getInfo(url);
   const song = {
     title: songInfo.videoDetails.title,
     url: songInfo.videoDetails.video_url
@@ -102,7 +121,7 @@ async function execute(message, serverQueue) {
 
   } else {
     serverQueue.songs.push(song);
-    return message.channel.send(`${song.title} has been added to the queue dumbfuck!`);
+    return message.channel.send(`**${song.title}** has been added to the queue dumbfuck!`);
   }
 }
 
@@ -145,7 +164,7 @@ function play(guild, song) {
     })
     .on("error", error => console.error(error));
   dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-  serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+  serverQueue.textChannel.send(`Now playing: **${song.title}**`);
 }
 
 function nameOptions(command, name) {
