@@ -92,7 +92,7 @@ async function searchVideo(message, args) {
   queueSong(message, song.url);
 }
 
-async function queueSong(message, urle) {
+async function queueSong(message, url) {
   const voiceChannel = message.member.voice.channel;
   const songInfo = await ytdl.getInfo(url);
   const serverQueue = queue.get(message.guild.id);
