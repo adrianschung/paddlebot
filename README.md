@@ -1,4 +1,4 @@
-# paddlebot
+# Paddlebot
 Discord Bot for music/text-to-speech
 
 Invite the bot to a server [here](https://discord.com/oauth2/authorize?client_id=672107855536455691&scope=bot).
