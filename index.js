@@ -171,6 +171,19 @@ function play(guild, song) {
   serverQueue.textChannel.send(`Now playing: **${song.title}**`);
 }
 
+function currentQueue(message) {
+  const serverQueue = queue.get(guild.id);
+  if (!serverQueue) {
+    message.channel.send("The queue is empty");
+  } else if (serverQueue.songs.length === 0) {
+    message.channel.send("The queue is empty");
+  } else {
+    `\`\`\`Current Queue
+    
+    \`\`\``
+  }
+}
+
 function nameOptions(command, name) {
   return({
     url: ['https://foaas.com', command, name, 'FOAASBOT'].join('/'),
@@ -230,6 +243,9 @@ client.on('message', async message => {
     }
     else if (command === 'stop') {
       stop(message, serverQueue);
+    }
+    else if (command ==='queue') {
+      currentQueue(message);
     }
     else if (nameCommands.includes(command)) {
       if (args.length !== 1) {
